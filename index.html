@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teen Emergency &amp; Health Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F0EEE6;
+    --panel: #FBFAF6;
+    --ink: #1B211E;
+    --ink-soft: #4A5049;
+    --muted: #8A8578;
+    --line: #D8D3C5;
+    --signal: #C8432F;
+    --signal-ink: #FFF7F3;
+    --calm: #2F6F63;
+    --calm-soft: #E4EEE9;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #14171A;
+      --panel: #1B1F22;
+      --ink: #EDEAE2;
+      --ink-soft: #C6C1B6;
+      --muted: #8B9089;
+      --line: #33383B;
+      --signal: #E4664F;
+      --signal-ink: #241512;
+      --calm: #5AA398;
+      --calm-soft: #1E2C29;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #14171A;
+    --panel: #1B1F22;
+    --ink: #EDEAE2;
+    --ink-soft: #C6C1B6;
+    --muted: #8B9089;
+    --line: #33383B;
+    --signal: #E4664F;
+    --signal-ink: #241512;
+    --calm: #5AA398;
+    --calm-soft: #1E2C29;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    height: 100%;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: 'Fraunces', serif; font-weight: 600; margin: 0; }
+  a { color: inherit; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+  header.top {
+    position: sticky; top: 0; z-index: 40;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 14px 20px; max-width: 980px; margin: 0 auto;
+  }
+  .brand { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; }
+  .brand small { display: block; font-family: 'IBM Plex Sans'; font-weight: 400; font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+  .call119 {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; font-weight: 500;
+    background: var(--signal); color: var(--signal-ink);
+    padding: 6px 10px; border-radius: 3px; white-space: nowrap;
+  }
+
+  nav.rail {
+    display: flex; gap: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    padding: 0 14px 10px 14px; max-width: 980px; margin: 0 auto;
+    scrollbar-width: none;
+  }
+  nav.rail::-webkit-scrollbar { display: none; }
+  nav.rail button {
+    flex: 0 0 auto;
+    font-family: 'IBM Plex Sans'; font-size: 0.82rem; font-weight: 500;
+    color: var(--ink-soft); background: transparent; border: 1px solid transparent;
+    padding: 7px 12px; border-radius: 999px; cursor: pointer;
+  }
+  nav.rail button.active { background: var(--ink); color: var(--paper); }
+  nav.rail button:not(.active):hover { border-color: var(--line); }
+
+  main { padding: 28px 0 80px; }
+  section.page { display: none; }
+  section.page.active { display: block; animation: rise .35s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .hero { padding: 8px 0 36px; }
+  .eyebrow-line { display:flex; align-items:center; gap:10px; margin-bottom: 18px; }
+  .eyebrow-line .dot { width:7px; height:7px; border-radius:50%; background: var(--calm); flex: none; }
+  .eyebrow-line span { font-size: 0.82rem; color: var(--muted); }
+  .hero h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.06; letter-spacing: -0.01em; max-width: 14ch; }
+  .hero p.lede { max-width: 46ch; font-size: 1.05rem; line-height: 1.55; color: var(--ink-soft); margin-top: 18px; }
+  .hero-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); margin-top: 30px; border: 1px solid var(--line); }
+  .hero-grid .cell { background: var(--panel); padding: 16px; }
+  .hero-grid .cell .n { font-family: 'IBM Plex Mono'; font-size: 0.7rem; color: var(--muted); }
+  .hero-grid .cell .t { margin-top: 6px; font-size: 0.9rem; font-weight: 500; }
+  @media (max-width: 640px) { .hero-grid { grid-template-columns: 1fr; } }
+
+  .page-head { border-bottom: 2px solid var(--ink); padding-bottom: 14px; margin-bottom: 28px; }
+  .page-head h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
+  .page-head p { color: var(--muted); font-size: 0.92rem; margin-top: 8px; max-width: 60ch; }
+
+  .card {
+    border: 1px solid var(--line); background: var(--panel);
+    padding: 20px 22px; margin-bottom: 14px;
+  }
+  .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .card p, .card li { color: var(--ink-soft); line-height: 1.6; font-size: 0.95rem; }
+  .card ol, .card ul { margin: 8px 0 0; padding-left: 1.2em; }
+  .card li + li { margin-top: 6px; }
+
+  .card.alert { border-color: var(--signal); background: color-mix(in srgb, var(--signal) 6%, var(--panel)); }
+  .card.alert h3 { color: var(--signal); }
+  .card.calm { border-left: 3px solid var(--calm); }
+
+  .steps { counter-reset: step; list-style: none; padding-left: 0; }
+  .steps li { counter-increment: step; position: relative; padding-left: 2.2em; margin-top: 10px; }
+  .steps li::before {
+    content: counter(step); position: absolute; left: 0; top: 0;
+    font-family: 'IBM Plex Mono'; font-size: 0.72rem; font-weight: 500;
+    width: 1.5em; height: 1.5em; border: 1px solid var(--ink-soft);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--ink-soft);
+  }
+
+  .myth { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .myth .m, .myth .f { padding: 12px 14px; font-size: 0.92rem; line-height: 1.55; }
+  .myth .m { background: color-mix(in srgb, var(--signal) 8%, var(--panel)); border-left: 3px solid var(--signal); }
+  .myth .f { background: var(--calm-soft); border-left: 3px solid var(--calm); }
+  .myth .m b, .myth .f b { font-family: 'IBM Plex Mono'; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; display: block; margin-bottom: 4px; color: var(--muted); }
+
+  .src-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (max-width: 640px) { .src-grid { grid-template-columns: 1fr; } }
+  .src-card { border: 1px solid var(--line); padding: 14px 16px; background: var(--panel); }
+  .src-card .abbr { font-family: 'IBM Plex Mono'; font-size: 0.75rem; color: var(--calm); font-weight: 500; }
+  .src-card p { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+
+  .quiz-q { margin-bottom: 20px; }
+  .quiz-q p.qtext { font-weight: 500; margin-bottom: 10px; }
+  .quiz-opt {
+    display: block; width: 100%; text-align: left;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+    padding: 10px 14px; margin-top: 6px; border-radius: 4px; cursor: pointer;
+    font-family: 'IBM Plex Sans'; font-size: 0.9rem;
+  }
+  .quiz-opt.correct { border-color: var(--calm); background: var(--calm-soft); }
+  .quiz-opt.wrong { border-color: var(--signal); background: color-mix(in srgb, var(--signal) 8%, var(--panel)); }
+  .quiz-opt:disabled { cursor: default; }
+  .quiz-result { margin-top: 18px; font-family: 'IBM Plex Mono'; font-size: 0.85rem; color: var(--muted); }
+  .stage-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
+  .stage-toggle button {
+    font-family: 'IBM Plex Sans'; font-size: 0.85rem; font-weight: 500;
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: var(--panel); color: var(--ink-soft);
+  }
+  .stage-toggle button.active { background: var(--calm); color: var(--calm-soft); border-color: var(--calm); }
+  .send-result { margin-top: 12px; }
+  .send-result:disabled { opacity: 0.45; cursor: not-allowed; }
+  .form-note { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
+  .btn {
+    font-family: 'IBM Plex Sans'; font-weight: 500; font-size: 0.9rem;
+    background: var(--ink); color: var(--paper); border: none;
+    padding: 10px 18px; border-radius: 4px; cursor: pointer;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+
+  footer.note {
+    max-width: 980px; margin: 40px auto 0; padding: 18px 20px;
+    border-top: 1px solid var(--line); color: var(--muted); font-size: 0.78rem; line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="topbar">
+    <div class="brand">Teen Emergency &amp; Health Ed.<small>Made by students, for students &mdash; not a substitute for medical care</small></div>
+    <div class="call119">KOREA · CALL 119</div>
+  </div>
+  <nav class="rail" id="rail"></nav>
+</header>
+
+<main class="wrap">
+
+  <section class="page active" data-page="home">
+    <div class="hero">
+      <div class="eyebrow-line"><span class="dot"></span><span>Phase 1 &middot; MVP</span></div>
+      <h1>Most students don't know what to do in the first five minutes.</h1>
+      <p class="lede">A short, sourced guide to emergencies, CPR/AED, and the Korean healthcare system &mdash; written for international-school students, reviewed against CDC, WHO, AHA, and NIH guidance.</p>
+      <div class="hero-grid">
+        <div class="cell"><div class="n">01</div><div class="t">Recognize an emergency and act in the first minute</div></div>
+        <div class="cell"><div class="n">02</div><div class="t">Know when 119, urgent care, or a clinic is the right call</div></div>
+        <div class="cell"><div class="n">03</div><div class="t">Spot common health myths before they cost time</div></div>
+      </div>
+    </div>
+
+    <div class="card calm">
+      <h3>Why this exists</h3>
+      <p>Built as part of a health-education project: survey students on what they know &rarr; build resources for the gaps &rarr; run a short workshop &rarr; measure what changed. This site is the "build" step. It doesn't diagnose anything &mdash; it helps you get to the right kind of help, fast.</p>
+    </div>
+  </section>
+
+  <section class="page" data-page="emergency">
+    <div class="page-head">
+      <h2>Emergency: the first minute</h2>
+      <p>What to actually do &mdash; not what feels dramatic &mdash; for the situations classmates run into most.</p>
+    </div>
+
+    <div class="card alert">
+      <h3>Fainting (someone loses consciousness briefly)</h3>
+      <ol class="steps">
+        <li>Lay them flat and raise their legs slightly if you can &mdash; don't prop them upright.</li>
+        <li>Check they're breathing normally and loosen anything tight around the neck.</li>
+        <li>If they don't wake within a minute, or fall and hit their head, call 119.</li>
+        <li>Once awake, let them rest lying down for several minutes before sitting up.</li>
+      </ol>
+    </div>
+
+    <div class="card alert">
+      <h3>Seizures</h3>
+      <ol class="steps">
+        <li>Clear the area of anything they could hit. Do not hold them down or restrain their movements.</li>
+        <li>Never put anything in their mouth.</li>
+        <li>Time the seizure. Once it stops, roll them onto their side (recovery position).</li>
+        <li>Call 119 if it lasts more than 5 minutes, repeats, or they don't regain awareness.</li>
+      </ol>
+    </div>
+
+    <div class="card alert">
+      <h3>Nosebleeds</h3>
+      <ol class="steps">
+        <li>Sit forward, not back &mdash; leaning back sends blood down the throat.</li>
+        <li>Pinch the soft part of the nose firmly for a full 10 minutes without checking early.</li>
+        <li>Seek care if it hasn't stopped after 20 minutes, or followed a hard head injury.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="page" data-page="cpr">
+    <div class="page-head">
+      <h2>CPR &amp; AED</h2>
+      <p>Based on AHA hands-only CPR guidance for bystanders without medical training.</p>
+    </div>
+
+    <div class="card">
+      <h3>What each one actually is</h3>
+      <p><b>CPR (cardiopulmonary resuscitation)</b> keeps blood moving to the brain when someone's heart has stopped. <b>An AED (automated external defibrillator)</b> is a device that can shock the heart back into a normal rhythm &mdash; it talks you through every step and won't shock someone who doesn't need it.</p>
+    </div>
+
+    <div class="card alert">
+      <h3>If someone collapses and isn't breathing normally</h3>
+      <ol class="steps">
+        <li>Call or shout for someone to call 119 immediately. Send someone to find an AED.</li>
+        <li>Push hard and fast on the center of the chest &mdash; about 5&ndash;6 cm deep, 100&ndash;120 pushes per minute (the tempo of "Stayin' Alive").</li>
+        <li>Let the chest rise fully between pushes. Don't stop until 119 arrives or an AED is ready.</li>
+        <li>If an AED arrives, turn it on and follow its voice instructions exactly &mdash; it guides every step.</li>
+      </ol>
+    </div>
+
+    <div class="card calm">
+      <h3>Where AEDs usually are in Korea</h3>
+      <p>Subway stations, large office buildings, schools, and gyms are required to have one, usually marked with a green heart-and-lightning-bolt sign near the entrance or by elevators. Knowing your school's AED location before an emergency is part of this project's workshop.</p>
+    </div>
+  </section>
+
+  <section class="page" data-page="help">
+    <div class="page-head">
+      <h2>When to seek help</h2>
+      <p>Matching the situation to the right level of care.</p>
+    </div>
+
+    <div class="card alert">
+      <h3>Call 119 (ambulance/fire) if:</h3>
+      <p>Someone is unconscious, not breathing normally, having chest pain, having a severe allergic reaction, bleeding heavily, or showing sudden stroke signs (face drooping, arm weakness, slurred speech &mdash; act on any one of these immediately).</p>
+    </div>
+
+    <div class="card">
+      <h3>Go to an ER (응급실) if:</h3>
+      <p>Symptoms are severe or getting worse fast, but the person can still travel safely &mdash; a bad allergic reaction that's stabilizing, a deep cut that needs stitches, a suspected fracture, high fever with confusion.</p>
+    </div>
+
+    <div class="card">
+      <h3>An urgent-care clinic or your regular doctor is enough for:</h3>
+      <p>Ongoing but non-severe symptoms &mdash; a cold that's lasted a week, a minor sprain, a rash, a prescription refill.</p>
+    </div>
+  </section>
+
+  <section class="page" data-page="basics">
+    <div class="page-head">
+      <h2>Healthcare basics in Korea</h2>
+      <p>The system, in plain language, for someone using it for the first time.</p>
+    </div>
+
+    <div class="card">
+      <h3>119</h3>
+      <p>Korea's free emergency dispatch number for ambulance and fire. Operators can connect you to English interpretation &mdash; say "English, please" as soon as they answer.</p>
+    </div>
+    <div class="card">
+      <h3>Triage</h3>
+      <p>ERs treat by severity, not arrival order. A patient who arrives after you but is more critical will be seen first &mdash; this is normal and not a mistake.</p>
+    </div>
+    <div class="card">
+      <h3>응급실 vs. 병원 vs. 의원</h3>
+      <p>응급실 (ER) is for emergencies only. 병원 (hospital) usually means a larger facility with multiple departments. 의원 (clinic) is a smaller, single-doctor practice for everyday, non-urgent care &mdash; this is where most check-ups and prescriptions happen.</p>
+    </div>
+  </section>
+
+  <section class="page" data-page="findcare">
+    <div class="page-head">
+      <h2>Find care (non-emergency)</h2>
+      <p>Major hospitals with a dedicated International Healthcare Center for English-speaking patients. For anything urgent, use 119 or the ER instead &mdash; see When to Seek Help.</p>
+    </div>
+
+    <div class="card">
+      <h3>Severance Hospital &mdash; International Health Care Center</h3>
+      <p>Seoul. Korea's first international clinic (opened 1962). English-speaking specialists, plus interpretation in Russian, Chinese, Japanese, and more.</p>
+    </div>
+    <div class="card">
+      <h3>Seoul National University Hospital &mdash; International Healthcare Center</h3>
+      <p>Seoul. Running since 1999; one-stop service covering booking, consultation, and English documentation (medical certificates, immunization records).</p>
+    </div>
+    <div class="card">
+      <h3>Inha University Hospital &mdash; International Healthcare Center</h3>
+      <p>Incheon. English, Chinese, Russian, and Mongolian-speaking staff; also handles visa health check-ups.</p>
+    </div>
+    <div class="card">
+      <h3>Keimyung University Dongsan Hospital &mdash; International Healthcare Center</h3>
+      <p>Daegu. One of the longer-running centers outside Seoul, recognized by the Ministry of Health and Welfare.</p>
+    </div>
+
+    <div class="card calm">
+      <h3>How booking usually works</h3>
+      <ol class="steps">
+        <li>Call the hospital's international center directly, or use its English website/contact form &mdash; most don't take booking through general search or maps apps.</li>
+        <li>Have ready: your name, date of birth, nationality, phone number, and (if you have one) your Alien Registration Number.</li>
+        <li>If you have Korean National Health Insurance, ask to be booked with Family Medicine first &mdash; it's usually the required first stop for insurance coverage.</li>
+        <li>If you don't have insurance, ask about the self-pay rate for foreign patients before your visit.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>What this page is &mdash; and isn't</h3>
+      <p>This is a directory and a how-to, not a booking system. We don't take reservations or connect to any hospital's system &mdash; each hospital has its own process, and actually booking on their behalf would need a direct partnership with each one. Always confirm details on the hospital's own site before you go.</p>
+    </div>
+  </section>
+
+  <section class="page" data-page="myths">
+    <div class="page-head">
+      <h2>Health misinformation</h2>
+      <p>Common things students believe that don't match CDC / AHA / WHO guidance.</p>
+    </div>
+
+    <div class="card">
+      <div class="myth">
+        <div><div class="m"><b>Myth</b>Tilt your head back for a nosebleed.</div></div>
+        <div><div class="f"><b>Fact</b>Lean forward. Tilting back lets blood run down the throat.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="myth">
+        <div><div class="m"><b>Myth</b>Hold a seizing person down so they "stop shaking."</div></div>
+        <div><div class="f"><b>Fact</b>Never restrain them &mdash; clear the space around them instead.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="myth">
+        <div><div class="m"><b>Myth</b>You need mouth-to-mouth to do CPR.</div></div>
+        <div><div class="f"><b>Fact</b>For an untrained bystander, hands-only chest compressions are the AHA-recommended default.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="myth">
+        <div><div class="m"><b>Myth</b>A fever needs to be brought down as fast as possible.</div></div>
+        <div><div class="f"><b>Fact</b>Fever is the body's response fighting infection; treat the discomfort, and seek care for very high or prolonged fever, not the number itself.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-page="quiz">
+    <div class="page-head">
+      <h2>Quick check</h2>
+      <p>A short pre/post-workshop check &mdash; the same five questions run before and after the workshop to measure what changed.</p>
+    </div>
+    <div class="stage-toggle" id="stageToggle">
+      <button data-stage="pre" class="active">Pre-workshop</button>
+      <button data-stage="post">Post-workshop</button>
+    </div>
+    <div class="card" id="quizCard"></div>
+  </section>
+
+  <section class="page" data-page="sources">
+    <div class="page-head">
+      <h2>Sources</h2>
+      <p>Every page above is checked against guidance from these organizations. Always confirm current guidance directly with them &mdash; this is a student project, not a medical authority.</p>
+    </div>
+    <div class="src-grid">
+      <div class="src-card"><div class="abbr">CDC</div><p>U.S. Centers for Disease Control and Prevention &mdash; emergency &amp; public health guidance.</p></div>
+      <div class="src-card"><div class="abbr">WHO</div><p>World Health Organization &mdash; global health standards and emergency care.</p></div>
+      <div class="src-card"><div class="abbr">AHA</div><p>American Heart Association &mdash; CPR and AED technique guidelines.</p></div>
+      <div class="src-card"><div class="abbr">NIH</div><p>U.S. National Institutes of Health &mdash; general medical reference.</p></div>
+      <div class="src-card"><div class="abbr">KDCA</div><p>Korea Disease Control and Prevention Agency &mdash; local guidance and emergency numbers.</p></div>
+      <div class="src-card"><div class="abbr">119</div><p>Korea's national emergency dispatch service.</p></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="note">
+  Educational content only &mdash; not medical advice, and not a substitute for calling 119 or seeing a licensed provider. This is Phase 1 of a student project: a single-device demo. Multi-user analytics, a real feedback form, and hospital data come in later phases.
+</footer>
+
+<script>
+  const pages = [
+    ["home", "Home"],
+    ["emergency", "Emergency"],
+    ["cpr", "CPR & AED"],
+    ["help", "When to Seek Help"],
+    ["basics", "Healthcare Basics"],
+    ["findcare", "Find Care"],
+    ["myths", "Misinformation"],
+    ["quiz", "Quiz"],
+    ["sources", "Sources"],
+  ];
+  const rail = document.getElementById('rail');
+  pages.forEach(([id, label]) => {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.dataset.target = id;
+    if (id === 'home') b.classList.add('active');
+    b.addEventListener('click', () => go(id));
+    rail.appendChild(b);
+  });
+
+  function go(id) {
+    document.querySelectorAll('section.page').forEach(s => s.classList.toggle('active', s.dataset.page === id));
+    document.querySelectorAll('nav.rail button').forEach(b => b.classList.toggle('active', b.dataset.target === id));
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  const FORM_CONFIG = {
+    formActionUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSc0jU_vC2kajZNeF06aQhKs_B4X4TvNmV6whrLoB5-GFsmngg/viewform',
+    entryWhen: 'entry.1108178112',
+    entryScore: 'entry.234487210',
+  };
+  function isFormReady() {
+    return !FORM_CONFIG.formActionUrl.includes('YOUR_FORM_ID');
+  }
+  let surveyStage = 'pre';
+  document.querySelectorAll('#stageToggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      surveyStage = btn.dataset.stage;
+      document.querySelectorAll('#stageToggle button').forEach(b => b.classList.toggle('active', b === btn));
+    });
+  });
+
+  const QUESTIONS = [
+    { q: "You see someone having a seizure. What's the first thing to do?", opts: ["Hold their arms and legs still", "Put something in their mouth", "Clear the area around them", "Pour water on their face"], a: 2 },
+    { q: "For hands-only CPR on an adult, how deep should chest compressions be?", opts: ["1–2 cm", "5–6 cm", "10 cm", "As deep as possible"], a: 1 },
+    { q: "For a nosebleed, you should:", opts: ["Tilt the head back", "Lean forward and pinch the nose", "Lie flat on your back", "Blow your nose hard first"], a: 1 },
+    { q: "Someone's face is drooping on one side and their speech is slurred. You should:", opts: ["Wait to see if it passes", "Give them water and rest", "Call 119 immediately", "Look it up online first"], a: 2 },
+    { q: "In a Korean ER, patients are treated:", opts: ["In the order they arrive", "By how urgent their condition is", "By whoever pays first", "Randomly"], a: 1 },
+  ];
+
+  function renderQuiz() {
+    const card = document.getElementById('quizCard');
+    card.innerHTML = '';
+    let answered = 0;
+    let correct = 0;
+    QUESTIONS.forEach((item, qi) => {
+      const block = document.createElement('div');
+      block.className = 'quiz-q';
+      const p = document.createElement('p');
+      p.className = 'qtext';
+      p.textContent = (qi + 1) + '. ' + item.q;
+      block.appendChild(p);
+      item.opts.forEach((opt, oi) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          if (btn.dataset.locked) return;
+          block.querySelectorAll('.quiz-opt').forEach(o => o.dataset.locked = "1");
+          block.querySelectorAll('.quiz-opt').forEach((o, idx) => {
+            o.disabled = true;
+            if (idx === item.a) o.classList.add('correct');
+            else if (o === btn) o.classList.add('wrong');
+          });
+          answered++;
+          if (oi === item.a) correct++;
+          if (answered === QUESTIONS.length) {
+            const res = document.createElement('div');
+            res.className = 'quiz-result';
+            res.textContent = 'Score: ' + correct + ' / ' + QUESTIONS.length;
+            card.appendChild(res);
+            try { localStorage.setItem('quizScore', correct + '/' + QUESTIONS.length); } catch (e) {}
+
+            const sendBtn = document.createElement('button');
+            sendBtn.className = 'btn send-result';
+            sendBtn.textContent = isFormReady() ? 'Send my result' : 'Send my result (form not connected yet)';
+            sendBtn.disabled = !isFormReady();
+            sendBtn.addEventListener('click', () => {
+              const params = new URLSearchParams();
+              params.set(FORM_CONFIG.entryWhen, surveyStage === 'pre' ? 'pre-workshop' : 'post-workshop');
+              params.set(FORM_CONFIG.entryScore, String(correct));
+              window.open(FORM_CONFIG.formActionUrl + '?' + params.toString(), '_blank');
+            });
+            card.appendChild(sendBtn);
+
+            const note = document.createElement('div');
+            note.className = 'form-note';
+            note.textContent = isFormReady()
+              ? 'Opens the class survey in a new tab with your score already filled in — just hit Submit there.'
+              : 'Once the Google Form is connected, this button will open it pre-filled with your score.';
+            card.appendChild(note);
+          }
+        });
+        block.appendChild(btn);
+      });
+      card.appendChild(block);
+    });
+    const retry = document.createElement('button');
+    retry.className = 'btn ghost';
+    retry.style.marginTop = '10px';
+    retry.textContent = 'Retake';
+    retry.addEventListener('click', renderQuiz);
+    card.appendChild(retry);
+  }
+  renderQuiz();
+</script>
+</body>
+</html>
