@@ -63,6 +63,7 @@
   a { color: inherit; }
   .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
 
+  /* ---- Top bar ---- */
   header.top {
     position: sticky; top: 0; z-index: 40;
     padding-top: env(safe-area-inset-top, 0px);
@@ -81,6 +82,7 @@
     padding: 6px 10px; border-radius: 3px; white-space: nowrap;
   }
 
+  /* ---- Nav rail ---- */
   nav.rail {
     display: flex; gap: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch;
     padding: 0 14px 10px 14px; max-width: 980px; margin: 0 auto;
@@ -101,6 +103,7 @@
   section.page.active { display: block; animation: rise .35s ease both; }
   @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+  /* ---- Hero ---- */
   .hero { padding: 8px 0 36px; }
   .eyebrow-line { display:flex; align-items:center; gap:10px; margin-bottom: 18px; }
   .eyebrow-line .dot { width:7px; height:7px; border-radius:50%; background: var(--calm); flex: none; }
@@ -113,6 +116,7 @@
   .hero-grid .cell .t { margin-top: 6px; font-size: 0.9rem; font-weight: 500; }
   @media (max-width: 640px) { .hero-grid { grid-template-columns: 1fr; } }
 
+  /* ---- Content blocks ---- */
   .page-head { border-bottom: 2px solid var(--ink); padding-bottom: 14px; margin-bottom: 28px; }
   .page-head h2 { font-size: clamp(1.6rem, 4vw, 2.2rem); }
   .page-head p { color: var(--muted); font-size: 0.92rem; margin-top: 8px; max-width: 60ch; }
@@ -129,6 +133,22 @@
   .card.alert { border-color: var(--signal); background: color-mix(in srgb, var(--signal) 6%, var(--panel)); }
   .card.alert h3 { color: var(--signal); }
   .card.calm { border-left: 3px solid var(--calm); }
+
+  .card > h3 { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; user-select: none; }
+  .card > h3 .chevron { font-family: 'IBM Plex Mono'; font-size: 1.1rem; color: var(--muted); transition: transform .2s ease; flex: none; }
+  .card.open > h3 .chevron { transform: rotate(45deg); }
+  .card-body { display: none; margin-top: 10px; }
+  .card.open .card-body { display: block; animation: rise .25s ease both; }
+
+  .diag { width: 100%; max-width: 220px; height: auto; display: block; margin: 12px 0 6px; }
+  .diag-cap { font-size: 0.78rem; color: var(--muted); font-family: 'IBM Plex Mono'; }
+  .photo { width: 100%; max-width: 280px; height: auto; display: block; margin: 14px 0 4px; border-radius: 4px; border: 1px solid var(--line); }
+  .photo-credit { font-size: 0.72rem; color: var(--muted); font-family: 'IBM Plex Mono'; margin-bottom: 4px; }
+  .video-link {
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+    font-size: 0.85rem; font-weight: 500; color: var(--calm); text-decoration: none;
+    border-bottom: 1px solid var(--calm); padding-bottom: 1px;
+  }
 
   .steps { counter-reset: step; list-style: none; padding-left: 0; }
   .steps li { counter-increment: step; position: relative; padding-left: 2.2em; margin-top: 10px; }
@@ -152,6 +172,7 @@
   .src-card .abbr { font-family: 'IBM Plex Mono'; font-size: 0.75rem; color: var(--calm); font-weight: 500; }
   .src-card p { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
 
+  /* ---- Quiz ---- */
   .quiz-q { margin-bottom: 20px; }
   .quiz-q p.qtext { font-weight: 500; margin-bottom: 10px; }
   .quiz-opt {
@@ -162,6 +183,7 @@
   }
   .quiz-opt.correct { border-color: var(--calm); background: var(--calm-soft); }
   .quiz-opt.wrong { border-color: var(--signal); background: color-mix(in srgb, var(--signal) 8%, var(--panel)); }
+  .quiz-opt.picked { border-color: var(--ink); background: color-mix(in srgb, var(--ink) 6%, var(--panel)); }
   .quiz-opt:disabled { cursor: default; }
   .quiz-result { margin-top: 18px; font-family: 'IBM Plex Mono'; font-size: 0.85rem; color: var(--muted); }
   .stage-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
@@ -175,6 +197,7 @@
   .send-result:disabled { opacity: 0.45; cursor: not-allowed; }
   .form-note { font-size: 0.78rem; color: var(--muted); margin-top: 8px; }
   .btn {
+    display: inline-block; text-decoration: none;
     font-family: 'IBM Plex Sans'; font-weight: 500; font-size: 0.9rem;
     background: var(--ink); color: var(--paper); border: none;
     padding: 10px 18px; border-radius: 4px; cursor: pointer;
@@ -232,6 +255,8 @@
         <li>If they don't wake within a minute, or fall and hit their head, call 119.</li>
         <li>Once awake, let them rest lying down for several minutes before sitting up.</li>
       </ol>
+      <img class="photo" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/File:Recovery_position.jpg" alt="A person lying down on their side, demonstrating a safe resting position">
+      <div class="photo-credit">Photo: Wikimedia Commons, CC BY-SA 2.0 FR (shown lying down; for fainting keep legs raised, not on the side)</div>
     </div>
 
     <div class="card alert">
@@ -242,6 +267,8 @@
         <li>Time the seizure. Once it stops, roll them onto their side (recovery position).</li>
         <li>Call 119 if it lasts more than 5 minutes, repeats, or they don't regain awareness.</li>
       </ol>
+      <img class="photo" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/File:Recovery_position.jpg" alt="A person demonstrating the recovery position, lying on their side with the top leg bent">
+      <div class="photo-credit">Photo: Wikimedia Commons, CC BY-SA 2.0 FR &mdash; recovery position: on their side, top leg bent for support</div>
     </div>
 
     <div class="card alert">
@@ -273,6 +300,23 @@
         <li>Let the chest rise fully between pushes. Don't stop until 119 arrives or an AED is ready.</li>
         <li>If an AED arrives, turn it on and follow its voice instructions exactly &mdash; it guides every step.</li>
       </ol>
+      <img class="photo" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/File:ISS-63%20Anatoly%20Ivanishin%20and%20Ivan%20Vagner%20practice%20chest%20compression%20techniques.jpg" alt="Astronauts practicing chest compression technique on a training mannequin">
+      <div class="photo-credit">Photo: NASA, public domain</div>
+      <a class="video-link" href="https://cpr.heart.org/en/cpr-courses-and-kits/hands-only-cpr" target="_blank" rel="noopener noreferrer">▶ Official Hands-Only CPR video &mdash; American Heart Association ↗</a>
+    </div>
+
+    <div class="card alert">
+      <h3>Choking (Heimlich maneuver)</h3>
+      <p>Ask "Are you choking?" first &mdash; if they can still cough, talk, or breathe, let them keep coughing. Only act if they can't.</p>
+      <ol class="steps">
+        <li>Have someone call 119.</li>
+        <li>Stand slightly behind and to the side. Give 5 firm back blows between the shoulder blades with the heel of your hand.</li>
+        <li>If that doesn't work, give 5 abdominal thrusts: fist just above the navel, grab it with your other hand, and pull sharply inward and upward.</li>
+        <li>Keep alternating 5 back blows / 5 abdominal thrusts until the object comes out or they lose consciousness &mdash; then start CPR.</li>
+      </ol>
+      <img class="photo" loading="lazy" src="https://commons.wikimedia.org/wiki/Special:FilePath/File:Abdominal%20thrusts.jpg" alt="Diagram of abdominal thrusts (Heimlich maneuver) hand position, just above the navel">
+      <div class="photo-credit">Photo: Wikimedia Commons, public domain &mdash; fist just above the navel, thrust inward and upward</div>
+      <a class="video-link" href="https://www.mayoclinic.org/first-aid/first-aid-choking/basics/art-20056637" target="_blank" rel="noopener noreferrer">▶ Official choking first-aid guide &amp; video &mdash; Mayo Clinic ↗</a>
     </div>
 
     <div class="card calm">
@@ -332,18 +376,22 @@
     <div class="card">
       <h3>Severance Hospital &mdash; International Health Care Center</h3>
       <p>Seoul. Korea's first international clinic (opened 1962). English-speaking specialists, plus interpretation in Russian, Chinese, Japanese, and more.</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Severance+Hospital+Seoul" target="_blank" rel="noopener noreferrer">Find on map ↗</a></p>
     </div>
     <div class="card">
       <h3>Seoul National University Hospital &mdash; International Healthcare Center</h3>
       <p>Seoul. Running since 1999; one-stop service covering booking, consultation, and English documentation (medical certificates, immunization records).</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Seoul+National+University+Hospital" target="_blank" rel="noopener noreferrer">Find on map ↗</a></p>
     </div>
     <div class="card">
       <h3>Inha University Hospital &mdash; International Healthcare Center</h3>
       <p>Incheon. English, Chinese, Russian, and Mongolian-speaking staff; also handles visa health check-ups.</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Inha+University+Hospital+Incheon" target="_blank" rel="noopener noreferrer">Find on map ↗</a></p>
     </div>
     <div class="card">
       <h3>Keimyung University Dongsan Hospital &mdash; International Healthcare Center</h3>
       <p>Daegu. One of the longer-running centers outside Seoul, recognized by the Ministry of Health and Welfare.</p>
+      <p><a href="https://www.google.com/maps/search/?api=1&query=Keimyung+University+Dongsan+Hospital+Daegu" target="_blank" rel="noopener noreferrer">Find on map ↗</a></p>
     </div>
 
     <div class="card calm">
@@ -455,6 +503,36 @@
     window.scrollTo({ top: 0, behavior: 'instant' });
   }
 
+  // ---- Accordion cards: collapse everything with a heading, expand on click ----
+  document.querySelectorAll('.card').forEach(card => {
+    const h3 = card.querySelector(':scope > h3');
+    if (!h3) return;
+    const body = document.createElement('div');
+    body.className = 'card-body';
+    const toMove = [];
+    let node = h3.nextSibling;
+    while (node) { toMove.push(node); node = node.nextSibling; }
+    toMove.forEach(n => body.appendChild(n));
+    card.appendChild(body);
+    const chevron = document.createElement('span');
+    chevron.className = 'chevron';
+    chevron.textContent = '+';
+    h3.appendChild(chevron);
+    h3.addEventListener('click', () => {
+      card.classList.toggle('open');
+      chevron.textContent = card.classList.contains('open') ? '–' : '+';
+    });
+  });
+
+  // ---- Google Form hookup ----
+  // 1) Create a Google Form with two questions:
+  //      - "When are you filling this out?" -> Multiple choice: Pre-workshop / Post-workshop
+  //      - "Score (out of 5)" -> Short answer
+  // 2) In the form editor, click the ⋮ menu -> "Get pre-filled link", fill in dummy
+  //    answers, click "Get link", then copy that long URL.
+  // 3) That URL looks like:
+  //    https://docs.google.com/forms/d/e/FORM_ID/viewform?entry.111=Pre-workshop&entry.222=3
+  //    Copy FORM_ID into formActionUrl below, and the two entry.NNN numbers below.
   const FORM_CONFIG = {
     formActionUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSc0jU_vC2kajZNeF06aQhKs_B4X4TvNmV6whrLoB5-GFsmngg/viewform',
     entryWhen: 'entry.1108178112',
@@ -471,6 +549,7 @@
     });
   });
 
+  // ---- Quiz ----
   const QUESTIONS = [
     { q: "You see someone having a seizure. What's the first thing to do?", opts: ["Hold their arms and legs still", "Put something in their mouth", "Clear the area around them", "Pour water on their face"], a: 2 },
     { q: "For hands-only CPR on an adult, how deep should chest compressions be?", opts: ["1–2 cm", "5–6 cm", "10 cm", "As deep as possible"], a: 1 },
@@ -479,11 +558,19 @@
     { q: "In a Korean ER, patients are treated:", opts: ["In the order they arrive", "By how urgent their condition is", "By whoever pays first", "Randomly"], a: 1 },
   ];
 
+  let picked = [];
+  let submitted = false;
+
+  function allAnswered() {
+    return picked.length === QUESTIONS.length && picked.every(p => p !== null && p !== undefined);
+  }
+
   function renderQuiz() {
+    picked = new Array(QUESTIONS.length).fill(null);
+    submitted = false;
     const card = document.getElementById('quizCard');
     card.innerHTML = '';
-    let answered = 0;
-    let correct = 0;
+
     QUESTIONS.forEach((item, qi) => {
       const block = document.createElement('div');
       block.className = 'quiz-q';
@@ -496,46 +583,72 @@
         btn.className = 'quiz-opt';
         btn.textContent = opt;
         btn.addEventListener('click', () => {
-          if (btn.dataset.locked) return;
-          block.querySelectorAll('.quiz-opt').forEach(o => o.dataset.locked = "1");
+          if (submitted) return;
+          picked[qi] = oi;
           block.querySelectorAll('.quiz-opt').forEach((o, idx) => {
-            o.disabled = true;
-            if (idx === item.a) o.classList.add('correct');
-            else if (o === btn) o.classList.add('wrong');
+            o.classList.toggle('picked', idx === oi);
           });
-          answered++;
-          if (oi === item.a) correct++;
-          if (answered === QUESTIONS.length) {
-            const res = document.createElement('div');
-            res.className = 'quiz-result';
-            res.textContent = 'Score: ' + correct + ' / ' + QUESTIONS.length;
-            card.appendChild(res);
-            try { localStorage.setItem('quizScore', correct + '/' + QUESTIONS.length); } catch (e) {}
-
-            const sendBtn = document.createElement('button');
-            sendBtn.className = 'btn send-result';
-            sendBtn.textContent = isFormReady() ? 'Send my result' : 'Send my result (form not connected yet)';
-            sendBtn.disabled = !isFormReady();
-            sendBtn.addEventListener('click', () => {
-              const params = new URLSearchParams();
-              params.set(FORM_CONFIG.entryWhen, surveyStage === 'pre' ? 'pre-workshop' : 'post-workshop');
-              params.set(FORM_CONFIG.entryScore, String(correct));
-              window.open(FORM_CONFIG.formActionUrl + '?' + params.toString(), '_blank');
-            });
-            card.appendChild(sendBtn);
-
-            const note = document.createElement('div');
-            note.className = 'form-note';
-            note.textContent = isFormReady()
-              ? 'Opens the class survey in a new tab with your score already filled in — just hit Submit there.'
-              : 'Once the Google Form is connected, this button will open it pre-filled with your score.';
-            card.appendChild(note);
-          }
+          submitBtn.disabled = !allAnswered();
         });
         block.appendChild(btn);
       });
       card.appendChild(block);
     });
+
+    const submitBtn = document.createElement('button');
+    submitBtn.className = 'btn';
+    submitBtn.style.marginTop = '6px';
+    submitBtn.textContent = 'Submit Quiz';
+    submitBtn.disabled = true;
+    submitBtn.addEventListener('click', () => {
+      if (submitted || !allAnswered()) return;
+      submitted = true;
+      submitBtn.disabled = true;
+
+      let correct = 0;
+      card.querySelectorAll('.quiz-q').forEach((block, qi) => {
+        const item = QUESTIONS[qi];
+        if (picked[qi] === item.a) correct++;
+        block.querySelectorAll('.quiz-opt').forEach((o, idx) => {
+          o.disabled = true;
+          if (idx === item.a) o.classList.add('correct');
+          else if (idx === picked[qi]) o.classList.add('wrong');
+        });
+      });
+
+      const res = document.createElement('div');
+      res.className = 'quiz-result';
+      res.textContent = 'Score: ' + correct + ' / ' + QUESTIONS.length;
+      card.appendChild(res);
+      try { localStorage.setItem('quizScore', correct + '/' + QUESTIONS.length); } catch (e) {}
+
+      const params = new URLSearchParams();
+      params.set(FORM_CONFIG.entryWhen, surveyStage === 'pre' ? 'pre-workshop' : 'post-workshop');
+      params.set(FORM_CONFIG.entryScore, String(correct));
+      const sendUrl = FORM_CONFIG.formActionUrl + '?' + params.toString();
+
+      const sendLink = document.createElement('a');
+      sendLink.className = 'btn send-result';
+      sendLink.textContent = isFormReady() ? 'Send my result' : 'Send my result (form not connected yet)';
+      if (isFormReady()) {
+        sendLink.href = sendUrl;
+        sendLink.target = '_blank';
+        sendLink.rel = 'noopener noreferrer';
+      } else {
+        sendLink.style.pointerEvents = 'none';
+        sendLink.style.opacity = '0.45';
+      }
+      card.appendChild(sendLink);
+
+      const note = document.createElement('div');
+      note.className = 'form-note';
+      note.textContent = isFormReady()
+        ? 'Tap to open the class survey with your score already filled in — just hit Submit there. If nothing happens, press and hold the button and choose "Open in New Tab."'
+        : 'Once the Google Form is connected, this button will open it pre-filled with your score.';
+      card.appendChild(note);
+    });
+    card.appendChild(submitBtn);
+
     const retry = document.createElement('button');
     retry.className = 'btn ghost';
     retry.style.marginTop = '10px';
